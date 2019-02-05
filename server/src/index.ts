@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 
+import { insertReading } from './dbUtils';
+
 const app = express();
 app.use(bodyParser.json());
 
@@ -18,6 +20,10 @@ app.post('/api/newreading', (req: Request, res: Response) => {
   catch (error) {
     return res.status(400).send(error); // HTTP 400 Bad Request
   }
+
+  insertReading(reading)
+    .then(() => res.send(reading))
+    .catch(err => res.status(500).send(err)); // HTTP 500 Internal Server Error
 
   res.send(reading);
 });
