@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 
-import { insertReading } from './dbUtils';
+import { insertReading, getSensors, getReadings } from './dbUtils';
 
 const app = express();
 app.use(bodyParser.json());
@@ -48,6 +48,28 @@ const assertReading = (reading: NewReading | null) => {
     throw 'Invalid or missing parameter "humidity"';
   }
 };
+
+/**
+ * GET /api/getsensors
+ * List sensor data
+ */
+app.get('/api/getsensors', (req: Request, res: Response) => {
+  console.log('Received getsensors request');
+  getSensors()
+    .then(sensors => res.send(sensors))
+    .catch(err => res.status(500).send(err)); // HTTP 500 Internal Server Error
+});
+
+/**
+ * GET /api/getreadings
+ * List reading data
+ */
+app.get('/api/getreadings/:limit', (req: Request, res: Response) => {
+  console.log('Received getreadings request');
+  getReadings(req.params.limit)
+    .then(readings => res.send(readings))
+    .catch(err => res.status(500).send(err));
+});
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {

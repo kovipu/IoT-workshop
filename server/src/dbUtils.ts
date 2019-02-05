@@ -41,4 +41,32 @@ const insertReading = (reading: NewReading) => {
     .then(() => console.log('Succesfully inserted reading into database,'))
 };
 
-export { insertReading };
+/**
+ * Get sensor data from the database
+ */
+const getSensors = (): Promise<Sensor[]> => {
+  const query = `
+    SELECT *
+    FROM Sensor
+  `;
+
+  return dbPromise
+    .then(db => db.all(query));
+};
+
+/**
+ * Get reading data from the database
+ */
+const getReadings = (limit: number = 100): Promise<Reading[]> => {
+  const query = SQL`
+    SELECT sensorname, temperature, pressure, humidity, timestamp
+    FROM Reading
+    ORDER BY timestamp DESC
+    LIMIT ${limit}
+  `;
+
+  return dbPromise
+    .then(db => db.all(query));
+}
+
+export { insertReading, getSensors, getReadings };
