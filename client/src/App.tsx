@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import SensorTable from './SensorTable';
+import ReadingTable from './ReadingTable';
 
 interface State {
   sensors: {
@@ -93,7 +94,7 @@ class App extends Component<{}, State> {
           <SensorTable {...this.state.sensors}/>
         </div>
         <div>
-          Tähän tulee mitta-arvot
+          <ReadingTable {...this.state.readings}/>
         </div>
       </div>
     );
