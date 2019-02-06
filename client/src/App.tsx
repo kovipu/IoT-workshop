@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import SensorTable from './SensorTable';
+
 interface State {
   sensors: {
     data: Sensor[],
@@ -85,10 +87,14 @@ class App extends Component<{}, State> {
   }
 
   render() {
-    console.log(this.state);
     return (
-      <div className="App">
-        Morjesta!
+      <div>
+        <div>
+          <SensorTable {...this.state.sensors}/>
+        </div>
+        <div>
+          Tähän tulee mitta-arvot
+        </div>
       </div>
     );
   }
